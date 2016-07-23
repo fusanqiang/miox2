@@ -10,6 +10,8 @@ import * as QueryString from 'querystring';
 import deepExtend from './deep-extend';
 import { getKey, setKey, keyName } from './session-key';
 
+let firstEnter = false;
+
 export default class Server extends EventEmitter {
     constructor(){
         super();
@@ -88,6 +90,7 @@ export default class Server extends EventEmitter {
 
         // 如果当前没有被初始化过
         if ( !locations.state ){
+            firstEnter = true;
             await this.rebuildHistory(locations);
         }else{
             this.createClient(locations);
@@ -125,6 +128,15 @@ export default class Server extends EventEmitter {
         if ( action != 'REFRESH' ){
             this.req.prevKey = oldKey;
             this.req.nextKey = locations.key;
+        }
+
+        /**
+         * 解决第一次进入BUG
+         * 第一次进入不触发路由选择
+         */
+        if ( firstEnter ){
+            firstEnter = false;
+            return ;
         }
 
         this.emit('history:listen');

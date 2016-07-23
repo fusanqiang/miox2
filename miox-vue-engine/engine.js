@@ -36,7 +36,31 @@ export default class Engine {
         ['createForward', 'createBackward', 'forward', 'backward'].forEach( which => {
             if ( ctx[which] ){
                 Vue.prototype[which] = url => ctx[which](url);
+                Vue.directive(toLinkString(which), PatchURL(which));
             }
         });
     }
+}
+
+function PatchURL(method){
+    return {
+        priority: 3000,
+        twoWay: true,
+        acceptStatement: true,
+        params: ['patch'],
+        bind(){
+            Vue.util.on(this.el, 'click', this.__patchURLCallback__ = () => {
+                if ( !this.params.patch ) return;
+                this.vm.$root[method](this.params.patch);
+            });
+        },
+        unbind(){
+            Vue.util.off(this.el, 'click', this.__patchURLCallback__);
+            delete this.__patchURLCallback__;
+        }
+    }
+}
+
+function toLinkString(s){
+    return s.replace(/([A-Z])/g,"-$1").toLowerCase()
 }

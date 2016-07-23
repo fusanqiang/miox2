@@ -9,7 +9,7 @@ import { Webview, Component, Engine } from '../../miox-vue-engine/index';
 import animate from '../../miox-animate/index';
 
 
-class A extends Webview {
+class Aspect extends Webview {
     constructor(el){
         super(el);
     }
@@ -31,8 +31,8 @@ class A extends Webview {
 
     template(node){
         return `
-            <h1 @click="a">go</h1>
-            <h1 @click="b">back</h1>
+            <h1 v-create-forward patch="/t">go</h1>
+            <h1 v-backward patch="/">back</h1>
         `;
     }
 }
@@ -46,7 +46,7 @@ class A extends Webview {
 
     r.patch('/', async function(ctx){
         //console.log('in',ctx);
-        await ctx.render(A);
+        await ctx.render(Aspect);
         console.log('ok')
     })
 
