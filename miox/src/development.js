@@ -5,8 +5,7 @@
 
 import { Bootstrap } from './index';
 import Router from '../../miox-router/index';
-import VueEngine from '../../miox-vue-engine/index';
-import { Webview, Component } from '../../miox-vue-widget/index';
+import { Webview, Component, Engine } from '../../miox-vue-engine/index';
 import animate from '../../miox-animate/index';
 
 
@@ -21,8 +20,20 @@ class A extends Webview {
         });
     }
 
+    methods(options){
+        options.a = function(){
+            this.createForward('/t');
+        };
+        options.b = function(){
+            this.backward('/');
+        };
+    }
+
     template(node){
-        return '<div>ddd</div>';
+        return `
+            <h1 @click="a">go</h1>
+            <h1 @click="b">back</h1>
+        `;
     }
 }
 
@@ -30,7 +41,7 @@ class A extends Webview {
     const app = await Bootstrap();
     const r = new Router();
 
-    app.engine(VueEngine);
+    app.engine(Engine);
     app.animate(animate());
 
     r.patch('/', async function(ctx){

@@ -9,6 +9,8 @@ import request from './request';
 import response from './response';
 import compose from 'koa-compose';
 import convert from 'koa-convert';
+import { parse } from 'url';
+import { getKey, keyName, is } from './session-key';
 
 export default class Application extends Server {
     constructor(el = document.body){
@@ -20,6 +22,28 @@ export default class Application extends Server {
         this.response = Object.create(response);
         this.enginer = null;
         this.animater = null;
+        this.webviews = {};
+        this.direction = 'FROM-LEFT-TO-CENTER';
+        this.mustCreate = true;
+        this.rendering = false;
+
+        this.on('history:destroy', removes => {
+            let i = removes.length;
+            while (i--) {
+                const webview = this.webviews[removes[i]];
+                if ( webview ){
+                    webview.destroy();
+                }
+            }
+        });
+    }
+
+    get(key){
+        return this.webviews[key];
+    }
+
+    set(key, webview){
+        return this.webviews[key] = webview;
     }
 
     use(fn) {
@@ -64,6 +88,7 @@ export default class Application extends Server {
 
     engine(monitor){
         const mt = new monitor(this);
+        mt.install && mt.install();
         return this.enginer = mt;
     }
 
@@ -80,5 +105,96 @@ export default class Application extends Server {
         this.appElement.classList.add('mx-app');
         this.webviewsElement.classList.add('mx-webviews');
         return this;
+    }
+
+    createForward(url){
+        if ( this.rendering ) return;
+        const object = parse(url);
+        this.direction = 'FROM-LEFT-TO-CENTER';
+        this.mustCreate = true;
+        this.history.push({
+            pathname: object.pathname,
+            search: object.search,
+            state: {
+                index: window.history.length,
+                url: url
+            }
+        });
+    }
+    createBackward(url){
+        if ( this.rendering ) return;
+        const object = parse(url);
+        this.direction = 'FROM-RIGHT-TO-CENTER';
+        this.mustCreate = true;
+        this.history.push({
+            pathname: object.pathname,
+            search: object.search,
+            state: {
+                index: window.history.length,
+                url: url
+            }
+        });
+    }
+    forward(url){
+        if ( this.rendering ) return;
+        this.direction = 'FROM-LEFT-TO-CENTER';
+        this.mustCreate = false;
+        const position = this.search(url);
+        if ( position === null ){
+            return this.createForward(url);
+        }
+        const index = getKey(keyName(this.req.nextKey)).index;
+        this.history.go(position - index);
+    }
+    backward(url){
+        if ( this.rendering ) return;
+        this.direction = 'FROM-RIGHT-TO-CENTER';
+        this.mustCreate = false;
+        const position = this.search(url);
+        if ( position === null ){
+            return this.createBackward(url);
+        }
+        const index = getKey(keyName(this.req.nextKey)).index;
+        this.history.go(position - index);
+    }
+
+    search(url){
+        let len = window.sessionStorage.length;
+        let index = null;
+        while( len-- ){
+            let key = window.sessionStorage.key(len);
+            if( is(key) ){
+                let state = JSON.parse(window.sessionStorage.getItem(key));
+                if ( state.url === url ){
+                    index = state.index;
+                    break;
+                }
+            }
+        }
+        return index;
+    }
+
+    async render(webview){
+        let el, web, _el;
+        if ( this.mustCreate ){
+            web = await this.enginer.create(webview);
+        }else{
+            web = this.get(this.req.nextKey);
+        }
+
+        el = web.el;
+
+        if ( !this.animater ){
+            throw new Error('miss animate slide function for changing pages');
+        }
+
+        const old = this.get(this.req.prevKey);
+        if (old){
+            _el = old.el;
+        }
+
+        await this.animater(this.direction, el, _el);
+        this.direction = null;
+        this.mustCreate = false;
     }
 }

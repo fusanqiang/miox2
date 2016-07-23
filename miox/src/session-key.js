@@ -14,7 +14,7 @@ export const setKey = function(key, value){
 };
 
 export const keyName = function(key){
-    return '@@History/' + key;
+    return /^@@/.test(key) ? key :'@@History/' + key;
 };
 
 export const is = function(name){

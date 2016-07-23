@@ -23,4 +23,8 @@ export default class Webview extends Component {
     __defineDestroy__(){
         this.vm && this.vm.$destroy(true);
     }
+
+    destroy(){
+        this.__defineDestroy__();
+    }
 }
