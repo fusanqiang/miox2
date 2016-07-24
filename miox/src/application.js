@@ -213,10 +213,6 @@ export default class Application extends Server {
 
         el = web.el;
 
-        if ( !this.animater ){
-            throw new Error('miss animate slide function for changing pages');
-        }
-
         const old = this.get(this.req.prevKey);
         if (old){
             _el = old.el;
@@ -224,6 +220,10 @@ export default class Application extends Server {
 
         if ( el && _el && el === _el ){
             _el = null;
+        }
+
+        if ( !this.animater ){
+            throw new Error('miss animate slide function for changing pages');
         }
 
         await this.animater(this.direction, el, _el);
