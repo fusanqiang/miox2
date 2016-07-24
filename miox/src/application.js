@@ -225,7 +225,7 @@ export default class Application extends Server {
         if ( !this.animater ){
             throw new Error('miss animate slide function for changing pages');
         }
-
+        
         await this.animater(this.direction, el, _el);
         this.direction = null;
         this.mustCreate = false;
