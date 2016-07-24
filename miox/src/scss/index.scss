@@ -1,0 +1,27 @@
+html,body{
+  width: 100%;
+  height:100%;
+  padding:0;
+  margin:0;
+  overflow: hidden;
+}
+.mx-app{
+  width: 100%;
+  height:100%;
+  .mx-webviews{
+    width: 100%;
+    height:100%;
+    .mx-webview{
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      display: none;
+      -webkit-overflow-scrolling:touch;
+      transform: translate3d(0,0,0);
+      &.active{
+        display: block;
+      }
+    }
+  }
+}

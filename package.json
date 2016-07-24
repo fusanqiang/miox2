@@ -46,6 +46,7 @@
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.0",
     "setimmediate": "^1.0.4",
+    "style-loader": "^0.13.1",
     "unique-array": "^1.0.1",
     "url": "^0.11.0",
     "vue": "^1.0.26",
