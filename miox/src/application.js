@@ -23,7 +23,7 @@ export default class Application extends Server {
         this.enginer = null;
         this.animater = null;
         this.webviews = {};
-        this.direction = 'FROM-LEFT-TO-CENTER';
+        this.direction = null;
         this.mustCreate = true;
         this.rendering = false;
 
@@ -36,6 +36,27 @@ export default class Application extends Server {
                 }
             }
         });
+
+        this.on('history:listen', function(action){
+            if ( action === 'POP' && this.direction === null ){
+                const prev = this.req.prevKey;
+                const next = this.req.nextKey;
+                const prevIndex = prev ? getKey(prev).index : null;
+                const nextIndex = next ? getKey(next).index : null;
+                if ( prevIndex === null ){
+                    return this.direction = null;
+                }
+                if ( nextIndex > prevIndex ){
+                    this.direction = 'NEW-WEBVIEW-FROM-RIGHT-TO-CENTER';
+                }
+                else if ( nextIndex < prevIndex ){
+                    this.direction = 'NEW-WEBVIEW-FROM-LEFT-TO-CENTER';
+                }
+                else{
+                    this.direction = null;
+                }
+            }
+        })
     }
 
     get(key){
@@ -64,10 +85,13 @@ export default class Application extends Server {
     callback(){
         const fn = compose(this.middleware);
         if (!this.listeners('error').length) this.on('error', this.onerror);
-        return (req, res) => {
+        return (req, res, resolve) => {
             const ctx = this.createContext(req, res);
             this.emit('server:start');
-            fn(ctx).then(()=> this.emit('server:end')).catch(this.onerror);
+            fn(ctx).then(() => {
+                this.emit('server:end');
+                resolve && resolve();
+            }).catch(this.onerror);
         }
     }
 
@@ -110,7 +134,7 @@ export default class Application extends Server {
     createForward(url){
         if ( this.rendering ) return;
         const object = parse(url);
-        this.direction = 'FROM-LEFT-TO-CENTER';
+        this.direction = 'NEW-WEBVIEW-FROM-RIGHT-TO-CENTER';
         this.mustCreate = true;
         this.history.push({
             pathname: object.pathname,
@@ -124,7 +148,7 @@ export default class Application extends Server {
     createBackward(url){
         if ( this.rendering ) return;
         const object = parse(url);
-        this.direction = 'FROM-RIGHT-TO-CENTER';
+        this.direction = 'NEW-WEBVIEW-FROM-LEFT-TO-CENTER';
         this.mustCreate = true;
         this.history.push({
             pathname: object.pathname,
@@ -137,7 +161,7 @@ export default class Application extends Server {
     }
     forward(url){
         if ( this.rendering ) return;
-        this.direction = 'FROM-LEFT-TO-CENTER';
+        this.direction = 'NEW-WEBVIEW-FROM-RIGHT-TO-CENTER';
         this.mustCreate = false;
         const position = this.search(url);
         if ( position === null ){
@@ -148,7 +172,7 @@ export default class Application extends Server {
     }
     backward(url){
         if ( this.rendering ) return;
-        this.direction = 'FROM-RIGHT-TO-CENTER';
+        this.direction = 'NEW-WEBVIEW-FROM-LEFT-TO-CENTER';
         this.mustCreate = false;
         const position = this.search(url);
         if ( position === null ){
@@ -176,10 +200,15 @@ export default class Application extends Server {
 
     async render(webview){
         let el, web, _el;
+
         if ( this.mustCreate ){
             web = await this.enginer.create(webview);
         }else{
             web = this.get(this.req.nextKey);
+        }
+
+        if ( !web ){
+            web = await this.enginer.create(webview);
         }
 
         el = web.el;
@@ -191,6 +220,10 @@ export default class Application extends Server {
         const old = this.get(this.req.prevKey);
         if (old){
             _el = old.el;
+        }
+
+        if ( el && _el && el === _el ){
+            _el = null;
         }
 
         await this.animater(this.direction, el, _el);

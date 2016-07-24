@@ -28,6 +28,7 @@ export default class Engine {
         const element = document.createElement('div');
         this.ctx.webviewsElement.appendChild(element);
         element.classList.add('mx-webview');
+        element.setAttribute('webview-key', this.ctx.req.nextKey);
         return element;
     }
 

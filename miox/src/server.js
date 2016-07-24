@@ -85,7 +85,9 @@ export default class Server extends EventEmitter {
         // 获取当前location对象
         const locations = this.history.getCurrentLocation();
         this._unlisten = this.history.listen(locals => {
-            this.historyListener(locals);
+            setImmediate(async () => {
+                await this.historyListener(locals);
+            });
         });
 
         // 如果当前没有被初始化过
@@ -93,7 +95,7 @@ export default class Server extends EventEmitter {
             firstEnter = true;
             await this.rebuildHistory(locations);
         }else{
-            this.createClient(locations);
+            await this.createClient(locations);
         }
     }
 
@@ -110,10 +112,10 @@ export default class Server extends EventEmitter {
             removes = await this._removeByKey(stateData.index, keyName(key));
         }
 
-        this.createClient(locals, removes);
+        await this.createClient(locals, removes);
     }
 
-    createClient(locations, removes = []){
+    async createClient(locations, removes = []){
         let action = locations.action;
         if ( action === 'REPLACE' ){
             action = 'REFRESH';
@@ -125,11 +127,11 @@ export default class Server extends EventEmitter {
         this.req = this.getClientLocations();
         this.req.method = action;
 
-        if ( action != 'REFRESH' ){
+        if ( action && action != 'REFRESH' ){
             this.req.prevKey = oldKey;
             this.req.nextKey = locations.key;
         }
-
+        
         /**
          * 解决第一次进入BUG
          * 第一次进入不触发路由选择
@@ -139,9 +141,13 @@ export default class Server extends EventEmitter {
             return ;
         }
 
-        this.emit('history:listen');
-        this.emit('history:destroy', removes);
-        this.emit('request', this.req, this.res);
+        await new Promise(resolve => {
+            setImmediate(() => {
+                this.emit('history:listen', action);
+                this.emit('history:destroy', removes);
+                this.emit('request', this.req, this.res, resolve);
+            });
+        });
     }
 
     getClientLocations(){

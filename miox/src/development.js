@@ -16,7 +16,7 @@ class Aspect extends Webview {
     
     init(){
         this.on('ready', function(vm){
-            console.log('ready:', vm);
+            //console.log('ready:', vm);
         });
     }
 
@@ -31,8 +31,26 @@ class Aspect extends Webview {
 
     template(node){
         return `
-            <h1 v-create-forward patch="/t">go</h1>
-            <h1 v-backward patch="/">back</h1>
+            <h1 v-create-forward patch="/t">A: go</h1>
+            <h1 v-backward patch="/">A: back</h1>
+        `;
+    }
+}
+
+class AspectB extends Webview {
+    constructor(el){
+        super(el);
+    }
+
+    init(){
+        this.on('ready', function(vm){
+            //console.log('ready:', vm);
+        });
+    }
+
+    template(node){
+        return `
+            <h1 v-backward patch="/">B : back</h1>
         `;
     }
 }
@@ -47,11 +65,11 @@ class Aspect extends Webview {
     r.patch('/', async function(ctx){
         //console.log('in',ctx);
         await ctx.render(Aspect);
-        console.log('ok')
+        //console.log('ok')
     })
 
     r.patch('/t', async function(ctx){
-        //console.log('i222n',ctx);
+        await ctx.render(AspectB);
     })
 
     app.on('server:start', () => {
@@ -63,20 +81,20 @@ class Aspect extends Webview {
     app.request.ip = 2;
     app.use(async (ctx, next) => {
        await new Promise(resolve => {
-           setTimeout(() => {console.log(1);resolve()}, 1000);
+           setTimeout(() => {resolve()}, 1000);
        });
-        console.log(2);
+        //console.log(2);
         await next();
     });
 
     app.use(async (ctx,next) => {
         await new Promise(resolve => {
-            setTimeout(() => {console.log(3);resolve()}, 1000);
+            setTimeout(() => {resolve()}, 1000);
         });
-        console.log(4)
+        //console.log(4)
         await next();
     });
     app.use(r.routes());
     await app.listen();
-    console.log(app);
+    //console.log(app);
 })();
