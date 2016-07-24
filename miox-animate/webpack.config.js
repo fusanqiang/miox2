@@ -9,21 +9,21 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const result = {};
 result.plugins = [];
 
-result.plugins.push(new ExtractTextPlugin('miox.css'));
+result.plugins.push(new ExtractTextPlugin('build.css'));
 /**
  * 配置启动文件地址
  * @type {*|Promise.<*>}
  */
-result.entry = path.resolve(__dirname, '../src/index');
+result.entry = path.resolve(__dirname, './index.js');
 
 /**
  * 配置输出文件地址和输出文件模式
  * @type {{path: (*|Promise.<*>), filename: string, libraryTarget: string}}
  */
 result.output = {
-    path: path.resolve(__dirname, '../release'),
-    filename: 'miox.js',
-    library: 'Miox',
+    path: __dirname,
+    filename: 'build.js',
+    library: 'MioxVueAnimate',
     libraryTarget: 'umd'
 };
 

@@ -7,8 +7,8 @@ import isGeneratorFunction from 'is-generator-function';
 import Server from './server';
 import request from './request';
 import response from './response';
-import compose from 'koa-compose';
-import convert from 'koa-convert';
+import compose from './compose';
+import convert from './convert';
 import { parse } from 'url';
 import { getKey, keyName, is } from './session-key';
 

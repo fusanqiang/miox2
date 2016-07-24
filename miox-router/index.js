@@ -3,7 +3,7 @@
  */
 'use strict';
 
-import compose from 'koa-compose';
+import compose from '../miox/src/compose';
 import Layer from './layer';
 const methods = ['patch'];
 
