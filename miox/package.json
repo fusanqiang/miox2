@@ -1,0 +1,8 @@
+{
+	"name": "miox2",
+	"version": "0.0.1",
+	"description": "miox2",
+	"author": "沈赟杰",
+	"license": "MIT",
+	"main": "release/miox.js"
+}
