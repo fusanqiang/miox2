@@ -12,8 +12,10 @@
     "build-animate": "NODE_ENV=production webpack --config miox-animate/webpack.config.js -p"
   },
   "files": [
-    "build",
-    "src/css"
+    "moix",
+    "miox-animate",
+    "miox-router",
+    "miox-vue-engine"
   ],
   "author": "沈赟杰",
   "license": "MIT",

@@ -6,6 +6,7 @@
 /**
  * import modules
  */
+import './scss/index.scss';
 import 'setimmediate';
 import 'babel-polyfill';
 import domReady from 'domready';
