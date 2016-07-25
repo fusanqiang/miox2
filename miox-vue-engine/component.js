@@ -123,7 +123,7 @@ function each(objects, cb){
 }
 
 function compile(value, key){
-    if ( isClass(value) ){
+    if ( isClass(value) || typeof value === 'function' ){
         const result = new value();
         if ( result.toJSON ){
             return result.toJSON();

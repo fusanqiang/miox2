@@ -15,10 +15,9 @@ export const Engine = ENGINE;
 export const Vue = VUE;
 
 export const define = function(name, webview){
-    if ( isClass(webview) ){
+    if ( isClass(webview) || typeof webview === 'function' ){
         const obj = new webview();
         webview = obj.toJSON();
     }
-
     Vue.component(name, webview);
 };
