@@ -5,8 +5,8 @@ import { Promise } from 'es6-promise';
 
 const defaultEventFailureGracePeriod = 100;
 
-export default (element, expectedDuration, callback, eventFailureGracePeriod) => {
-    return new Promise(resolve => {
+export default async (element, expectedDuration, eventFailureGracePeriod) => {
+    await new Promise(resolve => {
         const transitionend = getTransitionEndEvent();
         const gracePeriod = eventFailureGracePeriod !== undefined ?
             eventFailureGracePeriod :
@@ -21,6 +21,8 @@ export default (element, expectedDuration, callback, eventFailureGracePeriod) =>
                 // forcing onTransitionEnd callback...
                 forceEnd = true;
                 onTransitionEnd();
+            }else{
+                resolve();
             }
         }, expectedDuration + gracePeriod);
 
@@ -28,10 +30,7 @@ export default (element, expectedDuration, callback, eventFailureGracePeriod) =>
             if (forceEnd || e.target === element) {
                 done = true;
                 element.removeEventListener(transitionend, onTransitionEnd);
-                resolve(e);
-                if (callback) {
-                    callback(e);
-                }
+                resolve();
             }
         }
     });

@@ -196,13 +196,11 @@ export default class Application extends Server {
 
     async render(webview){
         let el, web, _el;
-
         if ( this.mustCreate ){
             web = await this.enginer.create(webview);
         }else{
             web = this.get(this.req.nextKey);
         }
-
         if ( !web ){
             web = await this.enginer.create(webview);
         }
@@ -213,11 +211,9 @@ export default class Application extends Server {
         if (old){
             _el = old.el;
         }
-
         if ( el && _el && el === _el ){
             _el = null;
         }
-
         if ( !this.animater ){
             throw new Error('miss animate slide function for changing pages');
         }

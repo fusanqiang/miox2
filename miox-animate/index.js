@@ -4,7 +4,7 @@
 'use strict';
 import onTransitionEnd from './transitionend';
 const expectedDuration = 350;
-const delay = 1000 / 60;
+const delaytime = 1000 / 60;
 
 export default function animation(configs = {
     effect: 'slide'
@@ -36,94 +36,82 @@ function removeClass(el, name){
     return el;
 }
 
+async function delay(){
+    await new Promise(resolve => setTimeout(resolve, delaytime));
+}
+
 async function Enter(newWebview, oldWebview, configs){
     const className = configs.effect;
-    return new Promise(resolve => {
-        newWebview.style.zIndex = 1000;
-        oldWebview.style.zIndex = 999;
+    newWebview.style.zIndex = 1000;
+    oldWebview.style.zIndex = 999;
 
-        newWebview.style.visibility = "visible";
-        oldWebview.style.visibility = "visible";
+    newWebview.style.visibility = "visible";
+    oldWebview.style.visibility = "visible";
 
-        addClass(newWebview, 'moving');
-        addClass(oldWebview, 'moving');
+    addClass(newWebview, 'moving');
+    addClass(oldWebview, 'moving');
 
-        newWebview.style.transition = "none";
-        addClass(newWebview,'mx-webview-forward');
+    newWebview.style.transition = "none";
+    addClass(newWebview,'mx-webview-forward');
 
-        className && addClass(newWebview, className);
-        className && addClass(oldWebview, className);
+    className && addClass(newWebview, className);
+    className && addClass(oldWebview, className);
 
-        //开始 变换
-        setTimeout(function(){
-            newWebview.style.transition = "";
-            addClass(oldWebview,'mx-webview-backward');
-            removeClass(oldWebview,'active');
-            removeClass(newWebview,'mx-webview-forward');
-        }, delay);
+    await delay();
 
+    newWebview.style.transition = "";
+    addClass(oldWebview,'mx-webview-backward');
+    removeClass(oldWebview,'active');
+    removeClass(newWebview,'mx-webview-forward');
 
-        //结束 变换
-        onTransitionEnd(newWebview, expectedDuration, function(){
-            addClass(newWebview,'active');
+    await onTransitionEnd(newWebview, expectedDuration);
 
-            removeClass(newWebview, 'moving');
-            removeClass(oldWebview, 'moving');
-
-            removeClass(oldWebview, 'mx-webview-backward');
-            newWebview.style.zIndex = "";
-            oldWebview.style.zIndex = "";
-            newWebview.style.visibility = "";
-            oldWebview.style.visibility = "";
-            className && removeClass(newWebview, className);
-            className && removeClass(oldWebview, className);
-            resolve();
-        });
-    });
+    addClass(newWebview,'active');
+    removeClass(newWebview, 'moving');
+    removeClass(oldWebview, 'moving');
+    removeClass(oldWebview, 'mx-webview-backward');
+    newWebview.style.zIndex = "";
+    oldWebview.style.zIndex = "";
+    newWebview.style.visibility = "";
+    oldWebview.style.visibility = "";
+    className && removeClass(newWebview, className);
+    className && removeClass(oldWebview, className);
 }
 
 async function Leave(newWebview, oldWebview, configs){
     const className = configs.effect;
-    return new Promise(resolve => {
-        //准备 变换
-        newWebview.style.zIndex = 999;
-        oldWebview.style.zIndex = 1000;
+    newWebview.style.zIndex = 999;
+    oldWebview.style.zIndex = 1000;
 
-        newWebview.style.visibility = "visible";
-        oldWebview.style.visibility = "visible";
+    newWebview.style.visibility = "visible";
+    oldWebview.style.visibility = "visible";
 
-        addClass(newWebview, 'moving');
-        addClass(oldWebview, 'moving');
+    addClass(newWebview, 'moving');
+    addClass(oldWebview, 'moving');
 
-        newWebview.style.transition="none";
-        addClass(newWebview,'mx-webview-backward');
+    newWebview.style.transition="none";
+    addClass(newWebview,'mx-webview-backward');
 
-        className && addClass(newWebview, className);
-        className && addClass(oldWebview, className);
+    className && addClass(newWebview, className);
+    className && addClass(oldWebview, className);
 
-        //开始 变换
-        setTimeout(function(){
-            newWebview.style.transition="";
-            removeClass(newWebview,'mx-webview-backward');
-            addClass(oldWebview,'mx-webview-forward');
-        },1000/60);
+    await delay();
 
-        //结束 变换
-        onTransitionEnd(newWebview, expectedDuration, function(){
-            addClass(newWebview,'active');
+    newWebview.style.transition="";
+    removeClass(newWebview,'mx-webview-backward');
+    addClass(oldWebview,'mx-webview-forward');
 
-            removeClass(newWebview, 'moving');
-            removeClass(oldWebview, 'moving');
+    await onTransitionEnd(newWebview, expectedDuration);
 
-            removeClass(oldWebview, 'mx-webview-forward');
-            removeClass(oldWebview, 'active');
-            newWebview.style.zIndex = "";
-            oldWebview.style.zIndex = "";
-            newWebview.style.visibility = "";
-            oldWebview.style.visibility = "";
-            className && removeClass(newWebview, className);
-            className && removeClass(oldWebview, className);
-            resolve();
-        });
-    })
+    addClass(newWebview,'active');
+    removeClass(newWebview, 'moving');
+    removeClass(oldWebview, 'moving');
+    removeClass(oldWebview, 'mx-webview-forward');
+    removeClass(oldWebview, 'active');
+    newWebview.style.zIndex = "";
+    oldWebview.style.zIndex = "";
+    newWebview.style.visibility = "";
+    oldWebview.style.visibility = "";
+    className && removeClass(newWebview, className);
+    className && removeClass(oldWebview, className);
 }
