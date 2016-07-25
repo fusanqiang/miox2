@@ -6,6 +6,7 @@
 import { EventEmitter } from 'events';
 import isClass from 'is-class';
 import deepCopy from 'deepcopy';
+import Vue from 'vue';
 
 export default class Component extends EventEmitter {
     constructor(){
@@ -106,6 +107,10 @@ export default class Component extends EventEmitter {
             }
         }
         return result;
+    }
+
+    static getVue(){
+        return Vue;
     }
 }
 
