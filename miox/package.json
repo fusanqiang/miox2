@@ -1,8 +1,12 @@
 {
-	"name": "miox2",
-	"version": "0.0.1",
-	"description": "miox2",
+	"name": "miox",
+	"version": "2.0.2",
+	"description": "miox the second version",
 	"author": "沈赟杰",
 	"license": "MIT",
-	"main": "release/miox.js"
+	"main": "release/miox.js",
+	"files": ["release"],
+	"scripts": {
+		"pub": "npm publish --tag next"
+	}
 }

@@ -4,5 +4,8 @@
 	"description": "miox router",
 	"author": "沈赟杰",
 	"license": "MIT",
-	"main": "build.js"
+	"main": "build.js",
+	"scripts": {
+		"pub": "npm publish"
+	}
 }
