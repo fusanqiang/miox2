@@ -5,8 +5,9 @@
 
 import { Bootstrap } from './index';
 import Router from '../../miox-router/index';
-import { Webview, Component, Engine } from '../../miox-vue-engine/index';
+import { Webview, Component, Engine, define } from '../../miox-vue-engine/index';
 import animate from '../../miox-animate/index';
+import components from '../../miox-vue-components';
 
 
 class Aspect extends Webview {
@@ -31,8 +32,20 @@ class Aspect extends Webview {
 
     template(node){
         return `
-            <h1 v-create-forward patch="/t">A: go</h1>
-            <h1 v-backward patch="/">A: back</h1>
+            <appview>
+                <appview-head>
+                    <navgation>
+                        <navgation-item left>left</navgation-item>
+                        <navgation-item center>标题</navgation-item>
+                        <navgation-item right>right</navgation-item>
+                    </navgation>
+                </appview-head>
+                <appview-body>
+                    <h1 v-create-forward patch="/t">A: go</h1>
+                    <h1 v-backward patch="/">A: back</h1>
+                </appview-body>
+                <appview-foot>789</appview-foot>
+            </appview>
         `;
     }
 }
@@ -63,6 +76,7 @@ class AspectB extends Webview {
 
     app.engine(Engine);
     app.animate(animate());
+    components(Component, define);
 
     r.patch('/', async function(ctx){
         //console.log('in',ctx);
@@ -80,7 +94,6 @@ class AspectB extends Webview {
     app.on('server:end', () => {
         //console.log('end')
     });
-    app.request.ip = 2;
     app.use(async (ctx, next) => {
        await new Promise(resolve => {
            setTimeout(() => {resolve()}, 1000);

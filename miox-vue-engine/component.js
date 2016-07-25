@@ -5,11 +5,12 @@
 
 import { EventEmitter } from 'events';
 import isClass from 'is-class';
+import deepCopy from 'deepcopy';
 
 export default class Component extends EventEmitter {
     constructor(){
         super();
-        this.__objects__ = ['data', 'computed', 'methods', 'watch', 'directives', 'elementDirectives', 'filters', 'components', 'transitions', 'partials', 'events', 'mixins', 'extends', 'propsData'];
+        this.__objects__ = ['data', 'computed', 'methods', 'watch', 'directives', 'elementDirectives', 'filters', 'components', 'transitions', 'partials', 'events', 'mixins', 'extends', 'props', 'propsData'];
         this.__methods__ = ['init', 'created', 'beforeCompile', 'compiled', 'ready', 'attached', 'detached', 'beforeDestroy', 'destroyed'];
         this.__dataBase__ = {};
         this.__duplicate__ = document.createElement('div');
@@ -95,9 +96,13 @@ export default class Component extends EventEmitter {
 
     toJSON(){
         const result = this.__defineBuildComponent__();
+        if ( result.propsData ){
+            delete result.propsData;
+        }
         if ( typeof result.data !== 'function' ){
+            const _data = deepCopy(result.data || {});
             result.data = function(){
-                return result.data;
+                return _data;
             }
         }
         return result;

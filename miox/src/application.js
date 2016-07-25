@@ -5,8 +5,6 @@
 
 import isGeneratorFunction from 'is-generator-function';
 import Server from './server';
-import request from './request';
-import response from './response';
 import compose from './compose';
 import convert from './convert';
 import { parse } from 'url';
@@ -18,8 +16,6 @@ export default class Application extends Server {
         this.wrapElement = el;
         this.middleware = [];
         this.env = process.env.NODE_ENV || 'development';
-        this.request = Object.create(request);
-        this.response = Object.create(response);
         this.enginer = null;
         this.animater = null;
         this.webviews = {};

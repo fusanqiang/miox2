@@ -13,12 +13,21 @@ import 'babel-polyfill';
 import domReady from 'domready';
 import fastClick from 'fastclick';
 import Application from './application';
+import Compose from './compose';
+import Convert from './convert';
+import IsClass from 'is-class';
+import IsGeneratorFunction from 'is-generator-function';
 
 /**
  * export modules
  */
 export * as Vue from 'vue';
 export { Promise } from 'es6-promise';
+export { EventEmitter } from 'events';
+export const compose = Compose;
+export const convert = Convert;
+export const isClass = IsClass;
+export const isGeneratorFunction = IsGeneratorFunction;
 
 if ( typeof window.Promise === 'undefined' ){
     window.Promise = Promise;
