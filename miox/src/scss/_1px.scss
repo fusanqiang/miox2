@@ -1,0 +1,21 @@
+
+@import "_1px_mixin";
+
+//使用1px类时，需要注意 如果是absolute定位的，在引入mx-1px后，需要重新写入absolute定位
+&1px{
+    &{
+        @include mx-1px($border-color-base);
+    }
+    &-top{
+        @include mx-1px-side($border-color-base,top,before);
+    }
+    &-bottom{
+        @include mx-1px-side($border-color-base,bottom,before);
+    }
+    &-left{
+        @include mx-1px-side($border-color-base,left,before);
+    }
+    &-right{
+        @include mx-1px-side($border-color-base,right,before);
+    }
+}

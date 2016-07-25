@@ -1,0 +1,74 @@
+&cell{
+    // .mx-cells
+    &s{
+        @include mx-1px-side($border-color-base,top,before);
+        @include mx-1px-side($border-color-base,bottom,after);
+        background-color: #fff;
+        margin:$cells-default-margin;
+        border-color: $border-color-base;
+        overflow: hidden;
+        &::before,&::after{
+            border-color: inherit;
+        }
+
+        // padding-left: $container-padding-side;
+    }
+    // .mx-cell
+    &{
+        @extend  .mx-flex-box,
+                 .mx-flex-justify-center,
+                 .mx-flex-align-items-center;
+
+        padding-left: $container-padding-side;
+        padding-right: $container-padding-side;
+        border-color: $border-color-light;
+        width: 100%;
+
+        &:not(:last-child){
+            @include mx-1px-side($border-color-light,bottom,before);
+            &::before{
+                border-color: inherit;
+                left:$container-padding-side;
+            }
+        }
+        [class^=mx-cell-]:first-child{
+            padding-left: 0;
+        }
+        [class^=mx-cell-]:last-child{
+            padding-right: 0;
+        }
+    }
+    // mx-cell-head mx-cell-foot
+    &-head,&-foot{
+        display: inline-block;
+        padding: $container-padding-base 0;
+    }
+
+    // mx-cell-body
+    &-body{
+        @extend .mx-flex-item;
+        padding: $container-padding-base;
+        flex: 1;
+    }
+
+
+    // properties
+    &-linked{
+        // padding-right: 40px;
+        &::after{
+            content: "";
+            display: block;
+            width: .5rem;
+            height: .5rem;
+            margin-left: 5px;
+            margin-right: 2px;
+            border-top: 1px solid $cell-linked-icon-color;
+            border-right:1px solid $cell-linked-icon-color;
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+        &:active{
+            background-color: $cell-clicked-background;
+        }
+    }
+}

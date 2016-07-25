@@ -1,27 +1,64 @@
-html,body{
-  width: 100%;
-  height:100%;
-  padding:0;
-  margin:0;
-  overflow: hidden;
-}
-.mx-app{
-  width: 100%;
-  height:100%;
-  .mx-webviews{
-    width: 100%;
-    height:100%;
-    .mx-webview{
-      width: 100%;
-      height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
-      display: none;
-      -webkit-overflow-scrolling:touch;
-      transform: translate3d(0,0,0);
-      &.active{
-        display: block;
-      }
-    }
-  }
+//html,body{
+//  width: 100%;
+//  height:100%;
+//  padding:0;
+//  margin:0;
+//  overflow: hidden;
+//}
+//.mx-app{
+//  width: 100%;
+//  height:100%;
+//  .mx-webviews{
+//    width: 100%;
+//    height:100%;
+//    .mx-webview{
+//      width: 100%;
+//      height: 100%;
+//      overflow-x: hidden;
+//      overflow-y: auto;
+//      display: none;
+//      -webkit-overflow-scrolling:touch;
+//      transform: translate3d(0,0,0);
+//      &.active{
+//        display: block;
+//      }
+//    }
+//  }
+//}
+
+
+//变量
+@import "_VARIABLE";
+//公共基础样式;
+@import "_base";
+
+// @import "_test";
+
+//带命名空间 样式
+.#{$namespace}{
+  //ui
+  @import "_font";
+  @import "_text";
+  //
+  // //construct
+  @import "_app";
+  @import "_sidebar";
+  @import "_webview";
+  //
+  // //
+  @import "_1px";
+
+  // //component 组件
+  @import "_appview";
+  @import "_radio";
+  @import "_checkbox";
+  @import "_aspect";
+  @import "_middle";
+  @import "_flex";
+  @import "_cell";
+  @import "_panel";
+  @import "_navgation";
+  @import "_toolbar";
+  @import "_button";
+  @import "_wave";
 }

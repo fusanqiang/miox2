@@ -1,0 +1,114 @@
+
+// style for test
+
+
+$test-bg:$component-color;
+.mx-sidebar{
+    color: #fff;
+    text-align: center;
+    .avatar{
+        margin: 30px auto;
+        text-align: center;
+        position: relative;
+        img{
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            object-position: center center;
+            border-radius: 50%;
+        }
+        .upload{
+            position: absolute;
+            left: 50%;
+            margin-left: 55px;
+            top: 0%;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #009ee7;
+        }
+    }
+}
+
+.mx-aspect{
+    background-color: $component-color;
+    color: #fff;
+}
+.test-box{
+    padding: 0.5em;
+}
+
+
+
+.test{
+    &-sidegap{
+        padding:0 15px;
+    }
+    &-high{
+        height: 100%
+    }
+    &-dice{
+        padding: 20px;
+        width: 150px;
+        height: 150px;
+        margin: 10px auto;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        box-shadow: 0 8px lighten(#eee,10%) inset,0 -8px darken(#eee,15%) inset,8px 0 darken(#eee,10%) inset,-8px 0 darken(#eee,10%) inset;
+        background-color: #eee;
+        &-pot{
+            width: 30px;
+            height: 30px;
+            background-color: #555;
+            border-radius: 50%;
+            box-shadow: 0 -4px 0 rgba(255,255,255,0.2) inset , 0 4px 0 rgba(0,0,0,0.1) inset;
+            &.red{
+                background-color: rgb(209, 59, 76);
+            }
+        }
+    }
+    &-menu{
+        height: 44px;
+        padding:  0 $container-padding-side;
+        color:#fff;
+        background-color: $test-bg;
+        .mx-flex-box{
+            height: 100%;
+        }
+    }
+    &-and{
+        // width: 100%;
+    }
+    &-middle{
+        width: 200px;
+        background-color: $test-bg;
+        margin: 10px auto;
+        color: #fff;
+    }
+    &-cell{
+        &-1{
+            width: 50px;
+            height: 50px;
+        }
+    }
+    &-textarea{
+        color: #666;
+        width: 100%;
+    }
+    &6{
+        width: 100%;
+    }
+    &-frame{
+        width: 350px;
+        overflow: scroll;
+    }
+    &-inner{
+        width: 900px;
+        height: 600px;
+        background-color: rgb(174, 238, 18)
+    }
+}
+
+body{
+    background-color: $test-bg;
+}

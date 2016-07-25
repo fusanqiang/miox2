@@ -1,0 +1,174 @@
+//
+$namespace: "mx-"; //命名空间
+$container-padding-side: 15px;
+$container-padding-base: 1em;
+$container-padding-small: 0.6em;
+$container-padding-big: 1.5em;
+$container-margin-base: 8px 0;
+
+// font
+$font-family-base: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+$font-size-root: 14px;
+$font-size-base: 1rem;
+$font-size-big: 1.2rem;
+$font-size-small: 0.8rem;
+$font-lineHeight-base: 1.6;
+$font-color-base: #666;
+$font-color-help: #999;
+$font-color-disable: #ccc;
+
+//border
+$border-color-base: #ccc;
+$border-color-dark: darken($border-color-base,10%);
+$border-color-darkest: darken($border-color-base,20%);
+$border-color-light: lighten($border-color-base,10%);
+$border-color-lightest: lighten($border-color-base,15%);
+
+//component
+$component-color:#8C88FF;
+
+//link
+$link-color: #2db7f5;
+$link-cursor: pointer;
+$link-text-decoration: none;
+
+
+//app
+$app-background-color: #222;
+$app-desktop-maxWidth: 750px;
+
+//cell
+$cells-default-margin: $container-margin-base;
+$cell-linked-icon-color: $border-color-dark;
+$cell-clicked-background: rgba(0,0,0,0.05);
+
+//panel
+$panel-head-saparater: true;
+$panel-foot-saparater: true;
+$panel-saparater-color: $border-color-light;
+$panel-padding-left: $container-padding-side;
+
+//webview
+$webview-animate-duration: 350ms;
+$webview-animate-in-timing-function: ease-out;
+$webview-animate-out-timing-function: ease-in;
+$webview-background-color: #fff;
+
+@mixin webview-animate-current-state {
+    transition-property       : transform,opacity;
+    transition-timing-function: ease;
+    transition-duration       : $webview-animate-duration;
+    box-shadow                : -8px 0 10px rgba(0,0,0,0.2);
+    opacity                   : 1;
+}
+@mixin webview-animate-forward-state($animation) {
+    @if $animation == 'slide' {
+        transform : translate3d(100%,0,0);
+        box-shadow: -8px 0 10px rgba(0,0,0,0.05);
+    }
+    @if $animation == 'drown' {
+            transform:translate3d(100%,0,0);
+            box-shadow: none;
+    }
+    @if $animation == 'fade' {
+        opacity: 0;
+    }
+    @if $animation == 'scale' {
+        transform: scale(1.2);
+        opacity: 0
+    }
+
+}
+@mixin webview-animate-backward-state($animation) {
+    @if $animation == "slide" {
+        opacity  : 0.9;
+        transform: translate3d(-20%,0,0);
+    }
+    @if $animation == "drown" {
+        opacity: 0.8;
+        transform-origin: right bottom;
+        transform: translate3d(0,0,0) scale(0.95);
+    }
+    @if $animation == "fade" {
+        opacity  : 1;
+    }
+    @if $animation == "scale" {
+        transform: scale(0.9);
+        opacity: 0.8;
+    }
+
+
+}
+
+//sidebar
+//边栏打开的状态 (transform ..)
+@mixin sidebar-open-state {
+    transform: translateX(0);
+    transition-timing-function: ease-in;
+}
+//边栏关闭时的状态
+@mixin sidebar-close-state {
+    transform : translateX(-80%) ;
+    transition: transform 250ms ease-out;
+}
+
+//边栏打开时 app的状态
+@mixin sidebar-open-app-state {
+    transform-style : preserve-3d;
+    transform       : translate3d(60%,0,30px)  rotateX(0) rotateY(0)  perspective(300px) ;
+    box-shadow      : 0 0 100px rgba(0,0,0,0.3);
+    transform-origin: center center 200px;
+    transition-timing-function: ease-in;
+}
+//边栏关闭时 app的状态
+@mixin sidebar-close-app-state {
+    transform       : translate3d(0,0,0)  rotateX(0) rotateY(0)  perspective(0) ;
+    transform-origin: center center 200px;
+    transition: transform 250ms ease-out,box-shadow 250ms ease-out ;
+}
+
+//其他效果1
+//
+// @mixin webview-animate-forward-state{
+//     transform:translate3d(100%,0,0);
+//     box-shadow: none;
+// }
+// @mixin webview-animate-backward-state{
+//     opacity: 0.8;
+//     transform-origin: right bottom;
+//     transform: translate3d(5%,0,0) scale(0.95);
+// }
+//
+// //
+// //边栏打开的状态 (transform ..)
+// @mixin sidebar-open-state {
+//     transform: translateX(0) rotateX(0);
+//     box-shadow: 0 0 20px #888;
+// }
+// //边栏关闭时的状态
+// @mixin sidebar-close-state {
+//     z-index: 1001;
+//     width: 250px;
+//     padding-right: 0;
+//     background-color: #fff;
+//     transform: translateX(-100%);
+//     transition: transform 200ms ease-out,box-shadow 200ms ease-out;
+// }
+
+// //边栏打开时 app的状态
+// @mixin sidebar-open-app-state {
+//
+// }
+// //边栏关闭时 app的状态
+// @mixin sidebar-close-app-state {
+// }
+
+//其他效果2
+// @mixin webview-animate-forward-state{
+//     transform:translate3d(0,100%,0);
+//     box-shadow: -8px 0 10px rgba(0,0,0,0.05);
+// }
+// @mixin webview-animate-backward-state{
+//     opacity: 0.9;
+//     transform:translate3d(0,-20%,0);
+// }

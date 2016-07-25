@@ -1,0 +1,21 @@
+
+&font{
+    &-base{
+        color: $font-color-base;
+    }
+    &-help{
+        color: $font-color-help;
+    }
+    &-disable{
+        color: $font-color-disable;
+    }
+    &-bold{
+        font-weight: bold;
+    }
+    &-normal{
+        font-weight: normal;
+    }
+    &-lighter{
+        font-weight: lighter;
+    }
+}

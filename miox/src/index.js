@@ -6,6 +6,7 @@
 /**
  * import modules
  */
+import 'normalize.css';
 import './scss/index.scss';
 import 'setimmediate';
 import 'babel-polyfill';

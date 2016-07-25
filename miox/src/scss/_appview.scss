@@ -1,0 +1,23 @@
+&appview{
+
+    &{
+        @extend .mx-flex-box,.mx-flex-direction-column;
+        height: 100%;
+    }
+    &-head{
+        height: 44px;
+    }
+    &-body{
+        flex: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling:touch;
+        transform: translate3d(0,0,0);
+    }
+    &-foot{
+        // height: 48px;
+    }
+    &-horizontal{
+        flex-direction: row!important;
+    }
+}

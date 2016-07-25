@@ -1,0 +1,44 @@
+&panel{
+    // margin: $container-margin-base;
+    // padding-left:$container-padding-side;
+    border-color: $border-color-base;
+    @include mx-1px-side($border-color-base,top,before);
+    @include mx-1px-side($border-color-base,bottom,after);
+    &::before,&::after{
+        border-color: inherit;
+    }
+
+
+
+    .mx-cell{
+
+    }
+    &-body{
+        color: $font-color-base;
+        padding: $container-padding-base ;
+    }
+    &-head{
+        color: $font-color-help;
+        font-size: $font-size-small;
+        padding: $container-padding-base ;
+
+        @include mx-1px-side($border-color-light,bottom,before);
+        &::before{
+            left: $container-padding-side;
+        }
+    }
+    &-foot{
+        @extend .mx-flex-box;
+        @extend .mx-flex-align-items-center;
+        @extend .mx-flex-justify-center;
+
+        color: $font-color-help;
+        font-size: $font-size-small;
+        // padding: $container-padding-base $container-padding-base $container-padding-base 0;
+        @include mx-1px-side($border-color-light,top,before);
+        &::before{
+            left: $container-padding-side;
+        }
+    }
+
+}

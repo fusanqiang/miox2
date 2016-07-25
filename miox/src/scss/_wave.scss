@@ -1,0 +1,40 @@
+&wave{
+
+    &{
+        position: relative;
+        padding: 0;
+        overflow: hidden;
+        transform: translateZ(0);
+        display: inline-block;
+    }
+    .mx-cell-linked:active{
+        background-color: transparent;
+    }
+    &-cover{
+        position: absolute;
+        background-color: lighten($component-color,10%);
+        height: 100%;
+        width: 0;
+        top: 0;
+        left: 0;
+        margin-left: -100%;
+        border-radius: 999px;
+        opacity: 0.4;
+        z-index: 0;
+        transform-origin: center center;
+    }
+    &-waving{
+        animation: Wave 300ms ease-out;
+    }
+    @keyframes Wave{
+        0%{
+            width: 200%;
+            transform: scaleX(0) ;
+        }
+        100%{
+            width: 200%;
+            transform: scaleX(1) ;
+            border-radius: 0;
+        }
+    }
+}
