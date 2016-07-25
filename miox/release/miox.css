@@ -1,0 +1,1 @@
+body,html{padding:0;margin:0;overflow:hidden}.mx-app,.mx-app .mx-webviews,body,html{width:100%;height:100%}.mx-app .mx-webviews .mx-webview{width:100%;height:100%;overflow-x:hidden;overflow-y:auto;display:none;-webkit-overflow-scrolling:touch;-webkit-transform:translateZ(0);transform:translateZ(0)}.mx-app .mx-webviews .mx-webview.active{display:block}
