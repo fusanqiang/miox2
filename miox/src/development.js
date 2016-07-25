@@ -43,8 +43,10 @@ class AspectB extends Webview {
     }
 
     init(){
+        const ctx = this.ctx;
         this.on('ready', function(vm){
             //console.log('ready:', vm);
+            console.log(ctx.get(ctx.req.prevKey))
         });
     }
 

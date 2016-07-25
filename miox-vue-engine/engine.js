@@ -18,6 +18,7 @@ export default class Engine {
         }
         return ctx.set(ctx.req.nextKey, await new Promise((resolve, reject) => {
             const web = new webview(this.createWebviewRoot());
+            web.ctx = ctx;
             web.on('ready', () => resolve(web));
             web.on('error', reject);
             web.__defineCompile__();
