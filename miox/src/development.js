@@ -9,6 +9,8 @@ import { Webview, Component, Engine, define } from '../../miox-vue-engine/index'
 import animate from '../../miox-animate/index';
 import components from '../../miox-vue-components';
 
+import WebSQL from '../../miox-websql/index';
+
 
 class Aspect extends Webview {
     constructor(el){
@@ -71,8 +73,33 @@ class AspectB extends Webview {
 }
 
 (async () => {
+    const database = new WebSQL('u51-f2e');
     const app = await Bootstrap();
     const r = new Router();
+
+    database.modals({
+        user: {
+            user_id: 'key',
+            user_name: 'varchar(255)',
+            user_age: 'integer',
+            user_desc: 'text'
+        },
+        cgroup: {
+            cgroup_id: 'key',
+            cgroup_name: 'varchar(255)',
+            cgroup_lv: 'integer'
+        }
+    });
+
+    await database.open();
+
+    console.log(database);
+
+    const b = await database.table('user').update({
+        user_age: 20
+    }, 'user_id=?', [1]);
+
+    console.log(b)
 
     app.engine(Engine);
     app.animate(animate());
@@ -112,4 +139,4 @@ class AspectB extends Webview {
     app.use(r.routes());
     await app.listen();
     //console.log(app);
-})();
+})().catch(console.info);

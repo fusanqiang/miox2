@@ -1,7 +1,6 @@
 'use strict';
 
 import prefixProperty from 'prefix-property';
-import { Promise } from 'es6-promise';
 
 const defaultEventFailureGracePeriod = 100;
 
