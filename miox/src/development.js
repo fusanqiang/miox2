@@ -95,9 +95,13 @@ class AspectB extends Webview {
 
     console.log(database);
 
+    database.table('user').on('update', function(data){
+        console.log('update data:', data);
+    });
+
     const b = await database.table('user').update({
         user_age: 20
-    }, 'user_id=?', [1]);
+    }, 'user_id=?', [2]);
 
     console.log(b)
 

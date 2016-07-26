@@ -2,9 +2,11 @@
  * Created by evio on 16/7/26.
  */
 'use strict';
+import { EventEmitter } from 'events';
 
-export default class TABLE {
+export default class TABLE extends EventEmitter {
     constructor(name, database){
+        super();
         this.name = name;
         this.database = database;
         this.db = database.db;
@@ -85,7 +87,9 @@ export default class TABLE {
                 c = c.concat(wheres);
             }
         }
-        return await this.database.exec(sql, c);
+        const result = await this.database.exec(sql, c);
+        this.emit('update', result);
+        return result;
     }
 
     async delete(where, wheres){
@@ -97,11 +101,15 @@ export default class TABLE {
                 arg = arg.concat(wheres);
             }
         }
-        return await this.database.exec(sql, arg);
+        const result = await this.database.exec(sql, arg);
+        this.emit('delete', result);
+        return result;
     }
 
     async exec(sql, args){
-        return await this.database.exec(sql, args);
+        const result = await this.database.exec(sql, args);
+        this.emit('exec', result);
+        return result;
     }
 }
 
