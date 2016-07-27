@@ -138,7 +138,6 @@ export default class Server extends EventEmitter {
          */
         if ( firstEnter ){
             firstEnter = false;
-            return ;
         }
 
         await new Promise(resolve => {
@@ -163,7 +162,7 @@ export default class Server extends EventEmitter {
     async rebuildHistory(locals){
         await this._removeAll();
         this.history.replace({
-            pathname: locals.pathname,
+            pathname: locals.pathname || '/',
             search: locals.search,
             state: {
                 index: window.history.length,
