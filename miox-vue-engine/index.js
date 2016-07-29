@@ -21,3 +21,9 @@ export const define = function(name, webview){
     }
     Vue.component(name, webview);
 };
+
+export const plugin = function(fn){
+    if ( typeof fn === 'function' ){
+        return fn({ Webview, Component, Vue, define });
+    }
+};

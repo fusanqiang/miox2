@@ -1,7 +1,7 @@
 {
-	"name": "miox-vue-components",
-	"version": "0.0.2",
-	"description": "miox vue components",
+	"name": "miox-vue-scroller",
+	"version": "0.0.1",
+	"description": "miox vue scroller",
 	"author": "沈赟杰",
 	"license": "MIT",
 	"main": "build.js",

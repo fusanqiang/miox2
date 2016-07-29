@@ -15,17 +15,17 @@ import panel from './panel/index';
 import radio from './radio/index';
 import toolbar from './toolbar/index';
 
-export default function components(COMPONENT, REGISTER){
-    appview(COMPONENT, REGISTER);
-    navgation(COMPONENT, REGISTER);
-    flex(COMPONENT, REGISTER);
-    aspect(COMPONENT, REGISTER);
-    button(COMPONENT, REGISTER);
-    cell(COMPONENT, REGISTER);
-    checkbox(COMPONENT, REGISTER);
-    container(COMPONENT, REGISTER);
-    middle(COMPONENT, REGISTER);
-    panel(COMPONENT, REGISTER);
-    radio(COMPONENT, REGISTER);
-    toolbar(COMPONENT, REGISTER);
+export default function components(Engine){
+    appview(Engine.Component, Engine.define);
+    navgation(Engine.Component, Engine.define);
+    flex(Engine.Component, Engine.define);
+    aspect(Engine.Component, Engine.define);
+    button(Engine.Component, Engine.define);
+    cell(Engine.Component, Engine.define);
+    checkbox(Engine.Component, Engine.define);
+    container(Engine.Component, Engine.define);
+    middle(Engine.Component, Engine.define);
+    panel(Engine.Component, Engine.define);
+    radio(Engine.Component, Engine.define);
+    toolbar(Engine.Component, Engine.define);
 }
