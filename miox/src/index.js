@@ -28,6 +28,7 @@ export const compose = Compose;
 export const convert = Convert;
 export const isClass = IsClass;
 export const isGeneratorFunction = IsGeneratorFunction;
+export const FastClick = fastClick;
 
 if ( typeof window.Promise === 'undefined' ){
     window.Promise = Promise;
