@@ -13,7 +13,7 @@ export default class Engine {
 
     async create(webview){
         const ctx = this.ctx;
-        if ( !isClass(webview) ){
+        if ( !isClass(webview) && typeof webview !== 'function' ){
             throw new Error('`webview` argument is not a class object.');
         }
         return ctx.set(ctx.req.nextKey, await new Promise((resolve, reject) => {
