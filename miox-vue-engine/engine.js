@@ -38,13 +38,13 @@ export default class Engine {
         ['createForward', 'createBackward', 'forward', 'backward'].forEach( which => {
             if ( ctx[which] ){
                 Vue.prototype[which] = url => ctx[which](url);
-                Vue.directive(toLinkString(which), PatchURL(which));
+                Vue.directive(toLinkString(which), PatchURL(which, ctx));
             }
         });
     }
 }
 
-function PatchURL(method){
+function PatchURL(method, ctx){
     return {
         priority: 3000,
         twoWay: true,
@@ -52,6 +52,12 @@ function PatchURL(method){
         params: ['patch'],
         bind(){
             Vue.util.on(this.el, 'click', this.__patchURLCallback__ = () => {
+                if ( method === 'forward' && !this.params.patch ){
+                    return ctx.history.forward();
+                }
+                if ( method === 'backward' && !this.params.patch ){
+                    return ctx.history.backward();
+                }
                 if ( !this.params.patch ) return;
                 this.vm.$root[method](this.params.patch);
             });

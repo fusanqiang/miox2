@@ -159,6 +159,11 @@ export default class Application extends Server {
         if ( this.rendering ) return;
         this.direction = 'NEW-WEBVIEW-FROM-RIGHT-TO-CENTER';
         this.mustCreate = false;
+
+        if ( !url ){
+            return this.history.goForward();
+        }
+
         const position = this.search(url);
         if ( position === null ){
             return this.createForward(url);
@@ -170,6 +175,11 @@ export default class Application extends Server {
         if ( this.rendering ) return;
         this.direction = 'NEW-WEBVIEW-FROM-LEFT-TO-CENTER';
         this.mustCreate = false;
+
+        if ( !url ){
+            return this.history.goBack();
+        }
+
         const position = this.search(url);
         if ( position === null ){
             return this.createBackward(url);
