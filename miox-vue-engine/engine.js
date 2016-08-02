@@ -53,10 +53,10 @@ function PatchURL(method, ctx){
         bind(){
             Vue.util.on(this.el, 'click', this.__patchURLCallback__ = () => {
                 if ( method === 'forward' && !this.params.patch ){
-                    return ctx.history.forward();
+                    return ctx.forward();
                 }
                 if ( method === 'backward' && !this.params.patch ){
-                    return ctx.history.backward();
+                    return ctx.backward();
                 }
                 if ( !this.params.patch ) return;
                 this.vm.$root[method](this.params.patch);
