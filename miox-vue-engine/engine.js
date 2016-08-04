@@ -35,6 +35,7 @@ export default class Engine {
 
     install() {
         const ctx = this.ctx;
+        Vue.prototype.$ctx = ctx;
         ['createForward', 'createBackward', 'forward', 'backward'].forEach( which => {
             if ( ctx[which] ){
                 Vue.prototype[which] = url => ctx[which](url);
