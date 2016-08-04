@@ -18,6 +18,7 @@ export default class Webview extends Component {
         data.el = this.el;
         data.replace = false;
         this.vm = new Vue(data);
+        this.vm.$webview = this;
     }
 
     __defineDestroy__(){
