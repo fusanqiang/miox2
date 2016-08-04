@@ -5,7 +5,7 @@
 
 import { Bootstrap } from './index';
 import Router from '../../miox-router/index';
-import { Webview, Component, Engine, define } from '../../miox-vue-engine/index';
+import { Webview, plugin, Engine } from '../../miox-vue-engine/index';
 import animate from '../../miox-animate/index';
 import components from '../../miox-vue-components';
 
@@ -106,7 +106,7 @@ class AspectB extends Webview {
 
     app.engine(Engine);
     app.animate(animate());
-    components(Component, define);
+    plugin(components);
 
     r.patch('/', async function(ctx){
         //console.log('in',ctx);
@@ -123,21 +123,6 @@ class AspectB extends Webview {
     });
     app.on('server:end', () => {
         //console.log('end')
-    });
-    app.use(async (ctx, next) => {
-       await new Promise(resolve => {
-           setTimeout(() => {resolve()}, 1000);
-       });
-        //console.log(2);
-        await next();
-    });
-
-    app.use(async (ctx,next) => {
-        await new Promise(resolve => {
-            setTimeout(() => {resolve()}, 1000);
-        });
-        //console.log(4)
-        await next();
     });
     app.use(r.routes());
     await app.listen();

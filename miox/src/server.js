@@ -84,11 +84,7 @@ export default class Server extends EventEmitter {
         this.history = createHashHistory();
         // 获取当前location对象
         const locations = this.history.getCurrentLocation();
-        this._unlisten = this.history.listen(locals => {
-            setImmediate(async () => {
-                await this.historyListener(locals);
-            });
-        });
+        this._unlisten = this.history.listen(locals => setImmediate(async () => await this.historyListener(locals)));
 
         // 如果当前没有被初始化过
         if ( !locations.state ){
@@ -116,6 +112,15 @@ export default class Server extends EventEmitter {
     }
 
     async createClient(locations, removes = []){
+        /**
+         * 解决第一次进入BUG
+         * 第一次进入不触发路由选择
+         */
+        if ( firstEnter ){
+            return firstEnter = false;
+        }
+
+
         let action = locations.action;
         if ( action === 'REPLACE' ){
             action = 'REFRESH';
@@ -130,14 +135,6 @@ export default class Server extends EventEmitter {
         if ( action && action != 'REFRESH' ){
             this.req.prevKey = oldKey;
             this.req.nextKey = locations.key;
-        }
-        
-        /**
-         * 解决第一次进入BUG
-         * 第一次进入不触发路由选择
-         */
-        if ( firstEnter ){
-            firstEnter = false;
         }
 
         await new Promise(resolve => {
