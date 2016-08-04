@@ -18,6 +18,9 @@ import Convert from './convert';
 import IsClass from 'is-class';
 import IsGeneratorFunction from 'is-generator-function';
 
+const doc = document.body;
+const noop = async function(){};
+
 /**
  * export modules
  */
@@ -29,6 +32,7 @@ export const convert = Convert;
 export const isClass = IsClass;
 export const isGeneratorFunction = IsGeneratorFunction;
 export const FastClick = fastClick;
+export const application = Application;
 
 if ( typeof window.Promise === 'undefined' ){
     window.Promise = Promise;
@@ -48,9 +52,19 @@ export const DomReady = () => {
     }));
 };
 
-export const Bootstrap = async (configs = {
-    el: document.body
-}) => {
+export const Bootstrap = async (el = doc, cb) => {
+    if ( !cb ){
+        if ( typeof el === 'function' ){
+            cb = el; el = doc;
+        }else{
+            cb = noop;
+        }
+    }
+
     await DomReady();
-    return new Application(configs.el);
+    const app = new Application(el);
+    await cb(app);
+    await app.listen();
+
+    return app;
 };
