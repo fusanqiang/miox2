@@ -205,14 +205,16 @@ export default class Application extends Server {
     }
 
     async render(webview){
-        let el, web, _el;
+        let el, web, _el, active = false, unActive = true;
         if ( this.mustCreate ){
             web = await this.enginer.create(webview);
         }else{
             web = this.get(this.req.nextKey);
+            active = true;
         }
         if ( !web ){
             web = await this.enginer.create(webview);
+            active = false;
         }
 
         el = web.el;
@@ -224,11 +226,19 @@ export default class Application extends Server {
         if ( el && _el && el === _el ){
             _el = null;
         }
+        if ( !_el ){
+            unActive = false;
+        }
+
         if ( !this.animater ){
-            throw new Error('miss animate slide function for changing pages');
+            throw new Error('miss animate sliding function when change pages');
         }
         
         await this.animater(this.direction, el, _el);
+
+        active && web.emit('webview:active');
+        unActive && old.emit('webview:unactive');
+
         this.direction = null;
         this.mustCreate = false;
     }
