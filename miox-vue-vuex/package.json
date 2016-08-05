@@ -1,7 +1,7 @@
 {
-	"name": "miox-vue-engine",
-	"version": "0.0.9",
-	"description": "miox vue engine",
+	"name": "miox-vuex",
+	"version": "0.0.1",
+	"description": "miox vue vux",
 	"author": "沈赟杰",
 	"license": "MIT",
 	"main": "build.js",

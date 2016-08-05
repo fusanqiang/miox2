@@ -7,12 +7,13 @@ import { EventEmitter } from 'events';
 import isClass from 'is-class';
 import deepCopy from 'deepcopy';
 import Vue from 'vue';
+import { Params, Events, Inits } from './params';
 
 export default class Component extends EventEmitter {
     constructor(){
         super();
-        this.__objects__ = ['data', 'computed', 'methods', 'watch', 'directives', 'elementDirectives', 'filters', 'components', 'transitions', 'partials', 'events', 'mixins', 'extends', 'props', 'propsData'];
-        this.__methods__ = ['init', 'created', 'beforeCompile', 'compiled', 'ready', 'attached', 'detached', 'beforeDestroy', 'destroyed'];
+        this.__objects__ = Params;
+        this.__methods__ = Events;
         this.__dataBase__ = {};
         this.__duplicate__ = document.createElement('div');
         this.__initData__();
@@ -72,6 +73,7 @@ export default class Component extends EventEmitter {
                 }
 
             }
+            Inits.forEach(init => init(this.__dataBase__));
         });
 
         if ( typeof this.template === 'function' ){

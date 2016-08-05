@@ -5,6 +5,7 @@
 
 import isClass from 'is-class';
 import Vue from 'vue';
+import { Params, Events, Inits } from './params';
 
 export default class Engine {
     constructor(ctx){
@@ -42,6 +43,25 @@ export default class Engine {
                 Vue.directive(toLinkString(which), PatchURL(which, ctx));
             }
         });
+    }
+
+    addParam(name){
+        Params.push(name);
+        return this;
+    }
+
+    addEvent(name){
+        Events.push(name);
+        return this;
+    }
+
+    addInit(fn){
+        if ( typeof fn === 'function' ){
+            Inits.push(fn);
+        }else{
+            throw new Error('addInit methods need a function object');
+        }
+        return this;
     }
 }
 
