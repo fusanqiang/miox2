@@ -19,7 +19,7 @@ class Aspect extends Webview {
     
     init(){
         this.on('ready', function(vm){
-            //console.log('ready:', vm);
+            console.log('ready:', vm);
         });
     }
 
@@ -72,38 +72,8 @@ class AspectB extends Webview {
     }
 }
 
-(async () => {
-    //const database = new WebSQL('u51-f2e');
-    const app = await Bootstrap();
+Bootstrap(async app => {
     const r = new Router();
-    // database.modals({
-    //     user: {
-    //         user_id: 'key',
-    //         user_name: 'varchar(255)',
-    //         user_age: 'integer',
-    //         user_desc: 'text'
-    //     },
-    //     cgroup: {
-    //         cgroup_id: 'key',
-    //         cgroup_name: 'varchar(255)',
-    //         cgroup_lv: 'integer'
-    //     }
-    // });
-    // console.log(3);
-    // await database.open();
-    // console.log(4);
-    // console.log(database);
-    //
-    // database.table('user').on('update', function(data){
-    //     console.log('update data:', data);
-    // });
-    //
-    // const b = await database.table('user').update({
-    //     user_age: 20
-    // }, 'user_id=?', [2]);
-    //
-    // console.log(b)
-
     app.engine(Engine);
     app.animate(animate());
     plugin(components);
@@ -125,6 +95,4 @@ class AspectB extends Webview {
         //console.log('end')
     });
     app.use(r.routes());
-    await app.listen();
-    //console.log(app);
-})().catch(console.info);
+}).catch(console.info);

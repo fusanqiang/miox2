@@ -112,15 +112,6 @@ export default class Server extends EventEmitter {
     }
 
     async createClient(locations, removes = []){
-        /**
-         * 解决第一次进入BUG
-         * 第一次进入不触发路由选择
-         */
-        if ( firstEnter ){
-            return firstEnter = false;
-        }
-
-
         let action = locations.action;
         if ( action === 'REPLACE' ){
             action = 'REFRESH';
@@ -131,6 +122,14 @@ export default class Server extends EventEmitter {
 
         this.req = this.getClientLocations();
         this.req.method = action;
+
+        /**
+         * 解决第一次进入BUG
+         * 第一次进入不触发路由选择
+         */
+        if ( firstEnter && !this.req.query._k ){
+            return firstEnter = false;
+        }
 
         if ( action && action != 'REFRESH' ){
             this.req.prevKey = oldKey;
@@ -157,6 +156,7 @@ export default class Server extends EventEmitter {
     }
 
     async rebuildHistory(locals){
+        console.log('replace');
         await this._removeAll();
         this.history.replace({
             pathname: locals.pathname || '/',
