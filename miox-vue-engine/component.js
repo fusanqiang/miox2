@@ -73,7 +73,6 @@ export default class Component extends EventEmitter {
                 }
 
             }
-            Inits.forEach(init => init(this.__dataBase__));
         });
 
         if ( typeof this.template === 'function' ){
@@ -93,6 +92,8 @@ export default class Component extends EventEmitter {
         if ( this.parent ){
             this.__dataBase__.parent = this.parent;
         }
+
+        Inits.forEach(init => init(this.__dataBase__));
 
         return this.__dataBase__;
     }
