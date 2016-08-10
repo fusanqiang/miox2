@@ -24,7 +24,6 @@ const noop = async function(){};
 /**
  * export modules
  */
-export * as Vue from 'vue';
 export { Promise } from 'es6-promise';
 export { EventEmitter } from 'events';
 export const compose = Compose;
