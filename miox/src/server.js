@@ -156,7 +156,6 @@ export default class Server extends EventEmitter {
     }
 
     async rebuildHistory(locals){
-        console.log('replace');
         await this._removeAll();
         this.history.replace({
             pathname: locals.pathname || '/',
