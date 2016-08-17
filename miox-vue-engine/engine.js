@@ -39,7 +39,7 @@ export default class Engine {
         Vue.prototype.$ctx = ctx;
         ['createForward', 'createBackward', 'forward', 'backward'].forEach( which => {
             if ( ctx[which] ){
-                Vue.prototype[which] = url => ctx[which](url);
+                Vue.prototype['$' + which] = url => ctx[which](url);
                 Vue.directive(toLinkString(which), PatchURL(which, ctx));
             }
         });
