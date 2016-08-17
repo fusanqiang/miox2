@@ -80,7 +80,11 @@ function PatchURL(method, ctx){
                     return ctx.backward();
                 }
                 if ( !this.params.patch ) return;
-                this.vm.$root[method](this.params.patch);
+                if ( this.vm.$root['$' + method] ){
+                    this.vm.$root['$' + method](this.params.patch);
+                }else{
+                    throw new Error('miss method: $' + method);
+                }
             });
         },
         unbind(){
