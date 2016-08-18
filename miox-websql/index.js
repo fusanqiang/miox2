@@ -43,7 +43,7 @@ export default class WebSQL {
             this.db = db;
             await this.scanTables();
         }catch(e){
-            throw new Error('Something went wrong when open database. \nThe error description is:', e);
+            throw new Error('Something went wrong when open database. \nThe error description is:' + e.message);
         }
     }
 
