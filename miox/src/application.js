@@ -231,10 +231,16 @@ export default class Application extends Server {
         }
 
         if ( !this.animater ){
-            throw new Error('miss animate sliding function when change pages');
+            if ( el ){
+                el.classList.add('active');
+            }
+
+            if ( _el ){
+                _el.classList.remove('active');
+            }
+        }else{
+            await this.animater(this.direction, el, _el);
         }
-        
-        await this.animater(this.direction, el, _el);
 
         active && web.emit('webview:active');
         unActive && old.emit('webview:unactive');

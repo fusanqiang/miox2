@@ -15,6 +15,13 @@ export default function animation(configs = {
             removeClass(oldWebview, 'active');
             return;
         }
+
+        if ( !configs.effect ){
+            removeClass(oldWebview,'active');
+            addClass(newWebview,'active');
+            return;
+        }
+
         switch (direction) {
             case 'NEW-WEBVIEW-FROM-RIGHT-TO-CENTER':
                 await Enter(newWebview, oldWebview, configs);
