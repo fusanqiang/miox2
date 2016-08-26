@@ -242,8 +242,11 @@ export default class Application extends Server {
             await this.animater(this.direction, el, _el);
         }
 
-        active && web.emit('webview:active');
-        unActive && old.emit('webview:unactive');
+        web && web.emit('webview:in');
+        old && old.emit('webview:out');
+
+        active && web && web.emit('webview:active');
+        unActive && old && old.emit('webview:unactive');
 
         this.direction = null;
         this.mustCreate = false;
